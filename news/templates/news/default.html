@@ -1,0 +1,8 @@
+<div class="news_slider">
+    {% for item in news %}
+        <div class="child {% cycle 'first' 'second' 'third' %}">
+            <div class="news_title">{{ item.title }}</div>
+            <div class="news_content">{{ item.content }}</div>
+         </div>
+    {% endfor %}
+</div>
