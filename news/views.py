@@ -1,9 +1,13 @@
 from django.views.generic import DetailView, ListView
+from .models import *
+from .settings import config
 
 
 class NewsList (ListView):
-    pass
+    model = News
+    template_name = config.NEWS_LIST_TEMPLATE
 
 
 class NewsDetailView (DetailView):
-    pass
+    model = News
+    template_name = config.NEWS_PAGE_TEMPLATE
