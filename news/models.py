@@ -2,10 +2,7 @@ from django.db import models
 from django.utils import timezone
 import os
 from django.utils.safestring import mark_safe
-try:
-    from djangocms_text_ckeditor.fields import HTMLField as CKeditorField
-except:
-    from ckeditor.fields import RichTextField as CKeditorField
+from ckeditor.fields import RichTextField
 
 
 class News(models.Model):
@@ -22,7 +19,7 @@ class News(models.Model):
     created_on = models.DateTimeField(default=timezone.now, verbose_name='Время создания')
     published = models.BooleanField(blank=True, default=False, verbose_name="Опубликован?")
     published_on = models.DateTimeField(blank=True, null=True, verbose_name="Когда опубликовать")
-    content = CKeditorField(blank=True, max_length=5000, verbose_name="Текст новости", config_name='news_editor')
+    content = RichTextField(blank=True, max_length=5000, verbose_name="Текст новости", config_name='news_editor')
     image = models.ImageField(blank=True, verbose_name="Изображение", upload_to=upload_image_to)
 
     def __str__(self):

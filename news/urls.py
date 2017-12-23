@@ -1,5 +1,6 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from .views import *
+from .admin import news_admin
 
 
 urlpatterns = [
