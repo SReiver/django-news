@@ -18,6 +18,6 @@ from news.admin import news_admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^news/', include('news.urls')),
+    url(r'^', include('news.urls')),
     url(r'^news-admin/', include(news_admin.urls)),
 ]

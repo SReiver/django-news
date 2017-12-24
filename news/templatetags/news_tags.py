@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.simple_tag
 def render_news(*args):
-    tmp = loader.get_template('news/default.html')
+    tmp = loader.get_template('news/default_tag_list.html')
     if args:
         template_name = args[0]
         try:
