@@ -13,7 +13,7 @@ class News(models.Model):
         ordering = ('-published_on', 'pk')
 
     def upload_image_to(instance, filename):
-        return os.path.join('news', instance.pk or 'new', filename)
+        return os.path.join('news', str(instance.pk or 'new'), filename)
 
     title = models.CharField(max_length=500, verbose_name="Заголовок")
     created_on = models.DateTimeField(default=timezone.now, verbose_name='Время создания')
