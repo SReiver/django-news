@@ -136,3 +136,7 @@ CKEDITOR_CONFIGS = {
         ],
     }
 }
+NEWS_SETTINGS = {
+    'NEWS_LIST_TEMPLATE' : 'news/default_list.html',
+    'NEWS_PAGE_TEMPLATE' : 'news/default_page.html',
+}
