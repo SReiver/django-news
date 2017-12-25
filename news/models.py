@@ -23,7 +23,7 @@ class News(models.Model):
     content = RichTextField(blank=True, max_length=5000, verbose_name=u"Текст новости", config_name='news_editor')
     image = models.ImageField(blank=True, verbose_name="Изображение", upload_to=upload_image_to)
 
-    def __str__(self):
+    def __unicode__(self):
         ttl = u"%s (%s)" % (self.title, self.created_on.strftime("%d.%m.%y %H:%M"))
         if not self.published:
             ttl = u"<span style='color:#cacaca;'>%s</span>" % ttl
