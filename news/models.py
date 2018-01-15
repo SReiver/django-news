@@ -29,6 +29,9 @@ class News(models.Model):
             ttl = u"<span style='color:#cacaca;'>%s</span>" % ttl
         return mark_safe(ttl)
 
+    def __str__(self):
+        return self.__unicode__()
+
     def save(self, *args, **kwargs):
         if not self.published_on and self.published:
             self.published_on = timezone.now()
