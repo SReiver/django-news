@@ -3,7 +3,7 @@
 <h1>{{ object.title }}</h1>
 <div>
     <img src="{{ object.image.url }}">
-    {{ object.content }}
+    {{ object.content|safe }}
 </div>
 </body>
 </HTML>

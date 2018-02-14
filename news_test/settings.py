@@ -137,6 +137,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 NEWS_SETTINGS = {
-    'NEWS_LIST_TEMPLATE' : 'news/default_list.html',
-    'NEWS_PAGE_TEMPLATE' : 'news/default_page.html',
+    'NEWS_LIST_TEMPLATE': 'news/default_list.html',
+    'NEWS_PAGE_TEMPLATE': 'news/default_page.html',
+    'EVENT_ADMIN_FIELDS': ('title', 'published', 'published_on', 'content', 'image'),
 }

@@ -4,24 +4,21 @@ from django.utils import timezone
 import os
 from django.utils.safestring import mark_safe
 from ckeditor.fields import RichTextField
+from django.utils import formats
 
 
-class News(models.Model):
+class NewsEventAbstract(models.Model):
 
     class Meta:
-        verbose_name = u'Новость'
-        verbose_name_plural = u'Новости'
+        abstract=True
         ordering = ('-published_on', 'pk')
-
-    def upload_image_to(instance, filename):
-        return os.path.join('news', str(instance.pk or 'new'), filename)
 
     title = models.CharField(max_length=500, verbose_name=u"Заголовок")
     created_on = models.DateTimeField(default=timezone.now, verbose_name=u'Время создания')
     published = models.BooleanField(blank=True, default=False, verbose_name=u"Опубликован?")
     published_on = models.DateTimeField(blank=True, null=True, verbose_name=u"Когда опубликовать")
-    content = RichTextField(blank=True, max_length=5000, verbose_name=u"Текст новости", config_name='news_editor')
-    image = models.ImageField(blank=True, verbose_name="Изображение", upload_to=upload_image_to)
+    annotation = RichTextField(blank=True, max_length=1000, verbose_name=u"Аннотация", config_name='news_editor')
+    content = RichTextField(blank=True, max_length=5000, verbose_name=u"Текст", config_name='news_editor')
 
     def __unicode__(self):
         ttl = u"%s (%s)" % (self.title, self.created_on.strftime("%d.%m.%y %H:%M"))
@@ -36,7 +33,27 @@ class News(models.Model):
         if not self.published_on and self.published:
             self.published_on = timezone.now()
         if not self.title:
-            from django.utils import formats
-            self.title = formats.date_format(self.published_on, 'd E Y') if self.published_on \
-                else formats.date_format(self.created_on, u'Создан d E Y')
-        super(News, self).save(*args, **kwargs)
+            self.title = formats.date_format(self.published_on, 'd E Y') if self.published_on else formats.date_format(self.created_on, u'Создан d E Y')
+        super(NewsEventAbstract, self).save(*args, **kwargs)
+
+
+class News(NewsEventAbstract):
+    def upload_image_to(instance, filename):
+        return os.path.join('news', str(instance.pk or 'new'), filename)
+
+    image = models.ImageField(blank=True, verbose_name="Изображение", upload_to=upload_image_to)
+
+    class Meta:
+        verbose_name = u'Новость'
+        verbose_name_plural = u'Новости'
+
+
+class Event(NewsEventAbstract):
+    def upload_image_to(instance, filename):
+        return os.path.join('event', str(instance.pk or 'new'), filename)
+
+    image = models.ImageField(blank=True, verbose_name="Изображение", upload_to=upload_image_to)
+
+    class Meta:
+        verbose_name = u'Событие'
+        verbose_name_plural = u'События'

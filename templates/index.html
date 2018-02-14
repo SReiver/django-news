@@ -1,0 +1,21 @@
+{% load static %}
+<html>
+<head>
+    <link href="{% static 'css/eventCalendar.css' %}" type="text/css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="{% static 'js/eventCalendar.js' %}"></script>
+</head>
+<body>
+<div style="width:1000px;margin:20px auto;">
+    <h2 style="text-align:center">Календарь событий</h2>
+    <div>
+        <div id="calendar"></div>
+    </div>
+</div>
+<script>
+$(function(){
+    $("#calendar").EventsCalendar({'ajaxUrl':"{% url "news:events-ajax" %}",'updateEvents':0})
+})
+</script>
+</body>
+</html>

@@ -15,9 +15,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from news.admin import news_admin
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('news.urls')),
+    url(r'^', include('news.urls', namespace='news')),
     url(r'^news-admin/', include(news_admin.urls)),
+    url(r'^demo', TemplateView.as_view(template_name='index.html'))
 ]

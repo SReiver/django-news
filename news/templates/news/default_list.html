@@ -4,7 +4,7 @@
     <div>
     <h2>{{ news.title }}</h2>
     <div>
-        {{ news.content }}
+        {{ news.annotation|safe }}
     </div>
     </div>
 {% empty %}

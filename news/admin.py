@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News
+from .models import News, Event
 from .settings import config
 
 
@@ -19,6 +19,12 @@ class NewsAdminSimple(admin.ModelAdmin):
     search_fields = ('title', 'content')
     fields = config.NEWS_ADMIN_FIELDS
 
+class EventAdminSimple(admin.ModelAdmin):
+    model = Event
+    search_fields = ('title', 'content')
+    fields = config.EVENT_ADMIN_FIELDS
+
 
 news_admin = MyAdminSite(name='news_admin')
 news_admin.register(News, NewsAdminSimple)
+news_admin.register(Event, EventAdminSimple)
