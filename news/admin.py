@@ -7,8 +7,14 @@ class NewsAdmin(admin.ModelAdmin):
     model = News
     search_fields = ('title', 'content')
 
-admin.site.register(News, NewsAdmin)
 
+class EventAdmin(admin.ModelAdmin):
+    model = Event
+    search_fields = ('title', 'content')
+
+
+admin.site.register(News, NewsAdmin)
+admin.site.register(Event, EventAdmin)
 
 class MyAdminSite(admin.AdminSite):
     pass
