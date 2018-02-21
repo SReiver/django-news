@@ -1,7 +1,10 @@
 from django import template
 from django.template import loader, TemplateDoesNotExist
-from news.models import News
+from news.models import News, Event
 from django.utils import timezone
+from django.core.urlresolvers import reverse, NoReverseMatch
+import json
+
 register = template.Library()
 
 
@@ -16,3 +19,40 @@ def render_news(*args):
             pass
     context = {'news': News.objects.filter(published=True, published_on__lte=timezone.now())}
     return tmp.render(context)
+
+
+@register.simple_tag
+def calendar(*args, **kwargs):
+
+    tpl = loader.get_template('news/calendar.html')
+
+    context = {
+        'options': {
+            'defaultView': 'month',
+            'dateFormat': {'year': 'numeric', 'month': 'long', 'day': '2-digit'}
+        },
+        'hasJQuery': kwargs.get('hasJQuery', 0),
+        'calendarID': kwargs.get('calendarID', 'calendar'+str(timezone.now().microsecond))
+    }
+    if 'ajaxUrl' in kwargs:
+        url = kwargs.get('ajaxUrl')
+        if url == 1:
+            url = reverse('news:events-ajax')
+        elif url:
+            try:
+                url = reverse(kwargs.get('ajaxUrl'))
+            except NoReverseMatch:
+                url = kwargs.get('ajaxUrl')
+        context['options']['ajaxUrl'] = url
+    if 'dateFormat' in kwargs and kwargs.get("dateFormat"):
+        context['options']['dateFormat'] = kwargs.get("dateFormat")
+    if 'eventsList' in kwargs:
+        events = kwargs.get('eventsList')
+        if not isinstance(events, str):
+            events = json.dumps(Event.serialise(events))
+        context['options']['eventsList'] = events
+    if 'fullEventTemplate' in kwargs:
+        context['options']['fullEventTemplate'] = kwargs.get('fullEventTemplate')
+
+
+    return tpl.render(context)

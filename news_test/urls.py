@@ -15,11 +15,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from news.admin import news_admin
-from django.views.generic import TemplateView
+from .views import DemoView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^$', DemoView.as_view() ),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('news.urls', namespace='news')),
     url(r'^news-admin/', include(news_admin.urls)),
-    url(r'^demo', TemplateView.as_view(template_name='index.html'))
-]
+    url(r'^', include('news.urls', namespace='news')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

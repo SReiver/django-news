@@ -30,15 +30,7 @@ class GetEvents(View):
         events = Event.objects.filter(published=True, published_on__gte=start).filter(published_on__lte=end)
         data = {
             'error': 0,
-            'events':
-                [{
-                    'id': e.pk,
-                    'annotation': e.annotation,
-                    'content': e.content,
-                    'title': e.title,
-                    'date': e.published_on.timestamp(),
-                    'image': "<img src='%s' alt=''/>" % e.image.url if e.image else '',
-                } for e in events]
+            'events': Event.serialise(events)
         }
 
         return JsonResponse(data)

@@ -5,6 +5,7 @@ import os
 from django.utils.safestring import mark_safe
 from ckeditor.fields import RichTextField
 from django.utils import formats
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 
 class NewsEventAbstract(models.Model):
@@ -59,3 +60,14 @@ class Event(NewsEventAbstract):
         verbose_name = u'Событие'
         verbose_name_plural = u'События'
         ordering = ('-published_on', 'pk')
+
+    @staticmethod
+    def serialise(objs):
+        return [{
+                    'id': e.pk,
+                    'title': e.title,
+                    'date': int(e.published_on.timestamp()),
+                    'annotation': e.annotation,
+                    'content': e.content,
+                    'image': '<img src="%s" alt=""/>' % static(e.image.url) if e.image else '',
+                } for e in objs]

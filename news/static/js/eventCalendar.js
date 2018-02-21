@@ -1,13 +1,13 @@
 (function($) {
     "use strict";
     $.fn.EventsCalendar = function(options) {
-        Date.prototype.getDayFromMomday = function() {
+        Date.prototype.getDayFromMonday = function() {
             return this.getDay()?this.getDay():7;
         };
 
         Date.prototype.getMonthWeek = function() {
             var fd = new Date(this.getFullYear(), this.getMonth());
-            return Math.ceil((((this - fd) / 86400000) + fd.getDayFromMomday()) / 7);
+            return Math.ceil((((this - fd) / 86400000) + fd.getDayFromMonday()) / 7);
         };
 
 
@@ -16,7 +16,7 @@
                 eventsList: false,
                 ajaxUrl: false,
                 updateEvents: false,
-                fullEventTemplate: '<div><h3>__title__</h3><div>__date__</div><div>__content__</div></div>',
+                fullEventTemplate: '<div><h3>__title__</h3><div>__image__</div><div>__date__</div><div>__content__</div></div>',
                 dateFormat: {'year':'numeric','month':'long','day':'2-digit'}
             }, options),
             $this = this;
@@ -25,7 +25,7 @@
         $this.year = $this.now.getFullYear();
         $this.month = $this.now.getMonth();
         $this.week = $this.now.getMonthWeek();
-        $this.day = $this.now.getDayFromMomday();
+        $this.day = $this.now.getDayFromMonday();
         $this.events = {};
 
         if (!settings.ajaxUrl && !settings.eventsList) {
@@ -54,7 +54,7 @@
                     year = date.getFullYear(),
                     month = date.getMonth(),
                     week = date.getMonthWeek(),
-                    day = date.getDayFromMomday();
+                    day = date.getDayFromMonday();
                 if (!(year in $this.events))
                     $this.events[year]={};
                 if (!(month in $this.events[year]))
@@ -68,11 +68,11 @@
             }
         }
 
-        settings.eventsList && updateEventList(settings.eventsList);
+        settings.eventsList && updateEventList(JSON.parse(settings.eventsList));
 
         function showEvents(year, month, week){
             var day = new Date(year, month, 1),
-                first_day_num = day.getDayFromMomday(),
+                first_day_num = day.getDayFromMonday(),
                 last_day = new Date(year, month+1, 0),
                 week_max = last_day.getMonthWeek(),
                 monthEvents = year in $this.events ? month in $this.events[year] ? $this.events[year][month] : [] : [];
@@ -108,7 +108,7 @@
                         today = new Date();
                     dayEventsBlock.html('');
                     dayBlock.removeClass('current');
-                    if (year==today.getFullYear() && month==today.getMonth() && w+1==today.getMonthWeek() && d==today.getDayFromMomday())
+                    if (year==today.getFullYear() && month==today.getMonth() && w+1==today.getMonthWeek() && d==today.getDayFromMonday())
                         dayBlock.addClass('current');
                     dayTitle.text(date.getDate());
                     if (date.getMonth() == month)
@@ -119,7 +119,7 @@
                         var evBlock = $("<div />",{'class':'event-item'}).text(ev.title),
                             eventTemplate = settings.fullEventTemplate;
                         for (var k in ev) {
-                            if (ev[k]!='' && ev.hasOwnProperty(k)){
+                            if (k!='' && ev.hasOwnProperty(k)){
                                 if (k=='date') {
                                     var evDate=new Date(ev[k]*1000);
                                     ev[k] = evDate.toLocaleString('ru-RU',settings.dateFormat);
@@ -167,6 +167,7 @@
         var nextBtn = $("<span class='calendar-next'>></span>");
         var prevBtn = $("<span class='calendar-prev'><</span>");
         nextBtn.data('year',$this.year).data('month',$this.month).click(function(){
+            $(".fullView",$this).remove();
             var month = $this.month+1,
                 year = $this.year;
             if (month==12){
@@ -176,6 +177,7 @@
             getEvents(year,month);
         });
         prevBtn.data('year',$this.year).data('month',$this.month).click(function(){
+            $(".fullView",$this).remove();
             var month = $this.month-1,
                 year = $this.year;
             if (month==-1){

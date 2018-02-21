@@ -1,7 +1,7 @@
-#calendar, .calendar-header, .calendar-body, .week, .day, .title, .events {
+.calendar-widget, .calendar-header, .calendar-body, .week, .day, .title, .events {
     box-sizing: border-box;
 }
-#calendar {
+.calendar-widget {
     max-width: 800px;
     width:100%;
     min-width:500px;
@@ -52,12 +52,19 @@
 .day .events {
     display: block;
 }
+.events .event-item {
+    cursor: pointer;
+}
 .fullView {
     position: absolute;
     background: #fff;
     padding: 20px;
     max-width: 400px;
     box-shadow: 2px 2px 3px 3px #ccc;
+}
+.fullView img {
+    max-width:100%;
+    max-height: 150px;
 }
 .close-btn {
     position: absolute;

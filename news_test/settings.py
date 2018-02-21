@@ -106,6 +106,9 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_prepared')
 
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
+MEDIA_URL = '/media/'
+
 CKEDITOR_CONFIGS = {
     'news_editor': {
         'toolbar_HTMLField': [
