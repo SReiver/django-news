@@ -54,6 +54,9 @@
 }
 .events .event-item {
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .fullView {
     position: absolute;

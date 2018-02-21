@@ -116,7 +116,7 @@
                     else
                         dayTitle.removeClass('current');
                     $.each(dayEvents, function(i,ev){
-                        var evBlock = $("<div />",{'class':'event-item'}).text(ev.title),
+                        var evBlock = $("<div />",{'class':'event-item','title':ev.title}).text(ev.title),
                             eventTemplate = settings.fullEventTemplate;
                         for (var k in ev) {
                             if (k!='' && ev.hasOwnProperty(k)){
