@@ -1,11 +1,11 @@
 {% load static %}
 
-<link href="{% static 'css/eventCalendar.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'news/css/eventCalendar.css' %}" type="text/css" rel="stylesheet">
 {% if not hasJQuery %}<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>{% endif %}
-<script src="{% static 'js/eventCalendar.js' %}"></script>
+<script src="{% static 'news/js/eventCalendar.js' %}"></script>
 <div id="{{ calendarID }}" class="calendar-widget"></div>
 <script>
 $(function(){
-    {{ calendarID }} = $("#{{ calendarID }}").EventsCalendar({{ options|safe }});
+    $("#{{ calendarID }}").EventsCalendar({{ options|safe }});
 })
 </script>
