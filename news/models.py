@@ -46,6 +46,7 @@ class News(NewsEventAbstract):
     class Meta:
         verbose_name = u'Новость'
         verbose_name_plural = u'Новости'
+        ordering = ('-published_on', 'pk')
 
 
 class Event(NewsEventAbstract):
@@ -57,3 +58,4 @@ class Event(NewsEventAbstract):
     class Meta:
         verbose_name = u'Событие'
         verbose_name_plural = u'События'
+        ordering = ('-published_on', 'pk')
