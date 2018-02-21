@@ -6,6 +6,10 @@ from django.utils.safestring import mark_safe
 from ckeditor.fields import RichTextField
 from django.utils import formats
 from django.contrib.staticfiles.templatetags.staticfiles import static
+try:
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
 
 
 class NewsEventAbstract(models.Model):
@@ -69,5 +73,5 @@ class Event(NewsEventAbstract):
                     'date': int(e.published_on.timestamp()),
                     'annotation': e.annotation,
                     'content': e.content,
-                    'image': '<img src="%s" alt=""/>' % static(e.image.url) if e.image else '',
+                    'image': u'<img src="%s" alt=""/>' % unquote(static(e.image.url)) if e.image else '',
                 } for e in objs]

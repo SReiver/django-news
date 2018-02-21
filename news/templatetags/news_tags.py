@@ -29,7 +29,8 @@ def calendar(*args, **kwargs):
     context = {
         'options': {
             'defaultView': 'month',
-            'dateFormat': {'year': 'numeric', 'month': 'long', 'day': '2-digit'}
+            'dateFormat': {'year': 'numeric', 'month': 'long', 'day': '2-digit'},
+            'updateEvents': kwargs.get("updateEvents", 0)
         },
         'hasJQuery': kwargs.get('hasJQuery', 0),
         'calendarID': kwargs.get('calendarID', 'calendar'+str(timezone.now().microsecond))
